@@ -12,8 +12,8 @@ interface CacheService<R, T> {
     /**
      * Find reactor cache entity for the given key.
      *
-     * @param retriever The retriever
-     * @param key The key to find
+     * @param retriever     The retriever
+     * @param key           The key to find
      *
      * @return Cache entity
      */

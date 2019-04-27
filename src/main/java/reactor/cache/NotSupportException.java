@@ -10,7 +10,7 @@ class NotSupportException extends RuntimeException {
     /**
      * Constructs a NotSupportException.
      *
-     * @param message Message explaining the exception condition
+     * @param message           Message explaining the exception condition
      */
     NotSupportException(String message) { super(message); }
 }

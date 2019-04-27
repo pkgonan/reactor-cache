@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
  *
  * @param <R> Flux or Mono
  * @param <T> the type of return value
+ *
  * @author Minkiu Kim
  */
 abstract class SpringCacheService<R, T> implements CacheService<R, T> {
@@ -22,11 +23,11 @@ abstract class SpringCacheService<R, T> implements CacheService<R, T> {
     protected Class<T> type;
 
     /**
-     * Default constructor
+     * Constructor
      *
-     * @param cacheManager  The spring cache manager
-     * @param cacheName     The cache name
-     * @param type          The Class of region cache type
+     * @param cacheManager      The spring cache manager
+     * @param cacheName         The cache name
+     * @param type              The Class of region cache type
      */
     protected SpringCacheService(CacheManager cacheManager, String cacheName, Class<T> type) {
         Assert.notNull(cacheManager, "CacheManager must not be null");
