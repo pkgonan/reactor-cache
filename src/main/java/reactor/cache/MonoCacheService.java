@@ -9,29 +9,46 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Spring Mono cache service implementation for Reactor
+ * Mono cache service implementation for spring cache
  *
  * @param <T> the type of return value
  * @author Minkiu Kim
  */
-public class MonoCacheService<T> extends AbstractCacheService<Mono<T>, T> {
+public class MonoCacheService<T> extends SpringCacheService<Mono<T>, T> {
 
-    public static <T> MonoCacheService of(CacheManager cacheManager, String cacheName, Class<T> tClass) {
-        return new MonoCacheService(cacheManager, cacheName, tClass);
+    /**
+     * Constructor
+     *
+     * @param cacheManager  The spring cache manager
+     * @param cacheName     The cache name
+     * @param type          The Class of region cache type
+     */
+    public MonoCacheService(CacheManager cacheManager, String cacheName, Class<T> type) {
+        super(cacheManager, cacheName, type);
     }
 
-    private MonoCacheService(CacheManager cacheManager, String cacheName, Class<T> tClass) {
-        super(cacheManager, cacheName, tClass);
-    }
-
+    /**
+     * Find Mono cache entity for the given key.
+     *
+     * @param retriever The Mono type retriever
+     * @param key The key to find
+     *
+     * @return The Mono type cache entity
+     */
     @Override
     public Mono<T> find(Mono<T> retriever, String key) {
         return CacheMono.lookup(reader, key).onCacheMissResume(retriever).andWriteWith(writer);
     }
 
+    /**
+     * Mono Cache reader function
+     */
     private Function<String, Mono<Signal<? extends T>>> reader = k -> Mono
-            .justOrEmpty(cacheManager.getCache(cacheName).get(k, tClass)).map(Signal::next);
+            .justOrEmpty(cacheManager.getCache(cacheName).get(k, type)).map(Signal::next);
 
+    /**
+     * Mono Cache writer function
+     */
     private BiFunction<String, Signal<? extends T>, Mono<Void>> writer = (k, signal) -> Mono
             .fromRunnable(() -> Optional.ofNullable(signal.get()).ifPresent(o -> cacheManager.getCache(cacheName).put(k, o)));
 }
