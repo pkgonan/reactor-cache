@@ -1,16 +1,15 @@
-package reactor.cache;
+package reactor.cache.spring;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import reactor.cache.exception.NotSupportException;
 import reactor.core.publisher.Flux;
 
-public class FluxCacheServiceTest {
+public class SpringFluxCacheServiceTest {
 
-    private FluxCacheService<String> fluxCacheService;
+    private SpringFluxCacheService<String> springFluxCacheService;
 
     @Before
     public void init() {
@@ -18,11 +17,11 @@ public class FluxCacheServiceTest {
         final Cache cache = new ConcurrentMapCache(cacheName);
         final Class<String> cacheRegionType = String.class;
 
-        this.fluxCacheService = new FluxCacheService<>(cache, cacheRegionType);
+        this.springFluxCacheService = new SpringFluxCacheService<>(cache, cacheRegionType);
     }
 
     @Test(expected = NotSupportException.class)
     public void find() {
-        fluxCacheService.find(Flux.empty(), "");
+        springFluxCacheService.find(Flux.empty(), "");
     }
 }

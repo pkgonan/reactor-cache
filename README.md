@@ -1,2 +1,3 @@
 # Reactor Cache
-* Reactor Cache for Spring
+* Reactor Cache Core
+* Reactor Cache Spring

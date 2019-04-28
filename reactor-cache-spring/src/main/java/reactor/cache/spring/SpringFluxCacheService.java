@@ -1,6 +1,8 @@
-package reactor.cache;
+package reactor.cache.spring;
 
 import org.springframework.cache.Cache;
+import reactor.cache.exception.NotSupportException;
+import reactor.cache.service.FluxCacheService;
 import reactor.core.publisher.Flux;
 
 /**
@@ -9,15 +11,15 @@ import reactor.core.publisher.Flux;
  * @param <T> the type of return value
  * @author Minkiu Kim
  */
-public class FluxCacheService<T> extends SpringCacheService<Flux<T>, T> {
+public class SpringFluxCacheService<T> extends AbstractSpringCacheService<T> implements FluxCacheService<T> {
 
     /**
      * Constructor
      *
-     * @param cache     The spring cache
-     * @param type      The Class of region cache type
+     * @param cache The spring cache
+     * @param type  The Class of region cache type
      */
-    public FluxCacheService(Cache cache, Class<T> type) {
+    public SpringFluxCacheService(Cache cache, Class<T> type) {
         super(cache, type);
     }
 
