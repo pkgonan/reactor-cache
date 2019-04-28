@@ -1,13 +1,12 @@
 package reactor.cache;
 
-import org.springframework.cache.CacheManager;
+import org.springframework.cache.Cache;
 import reactor.core.publisher.Flux;
 
 /**
  * Flux cache service implementation for spring cache
  *
  * @param <T> the type of return value
- *
  * @author Minkiu Kim
  */
 public class FluxCacheService<T> extends SpringCacheService<Flux<T>, T> {
@@ -15,20 +14,18 @@ public class FluxCacheService<T> extends SpringCacheService<Flux<T>, T> {
     /**
      * Constructor
      *
-     * @param cacheManager      The spring cache manager
-     * @param cacheName         The cache name
-     * @param type              The Class of region cache type
+     * @param cache     The spring cache
+     * @param type      The Class of region cache type
      */
-    public FluxCacheService(CacheManager cacheManager, String cacheName, Class<T> type) {
-        super(cacheManager, cacheName, type);
+    public FluxCacheService(Cache cache, Class<T> type) {
+        super(cache, type);
     }
 
     /**
      * Find Flux cache entity for the given key.
      *
-     * @param retriever         The Flux type retriever
-     * @param key               The key to find
-     *
+     * @param retriever The Flux type retriever
+     * @param key       The key to find
      * @return The Flux type cache entity
      */
     @Override

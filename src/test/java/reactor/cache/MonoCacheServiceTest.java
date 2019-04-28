@@ -2,11 +2,11 @@ package reactor.cache;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.Cache;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import reactor.core.publisher.Mono;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MonoCacheServiceTest {
 
@@ -15,10 +15,10 @@ public class MonoCacheServiceTest {
     @Before
     public void init() {
         final String cacheName = "Mono-cache-test";
-        final CacheManager cacheManager = new ConcurrentMapCacheManager(cacheName);
-        final Class<String> cacheClassType = String.class;
+        final Cache cache = new ConcurrentMapCache(cacheName);
+        final Class<String> cacheRegionType = String.class;
 
-        this.monoCacheService = new MonoCacheService<>(cacheManager, cacheName, cacheClassType);
+        this.monoCacheService = new MonoCacheService<>(cache, cacheRegionType);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package reactor.cache;
 
-import org.springframework.cache.CacheManager;
+import org.springframework.cache.Cache;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Signal;
 
@@ -20,12 +20,11 @@ public class MonoCacheService<T> extends SpringCacheService<Mono<T>, T> {
     /**
      * Constructor
      *
-     * @param cacheManager      The spring cache manager
-     * @param cacheName         The cache name
+     * @param cache             The spring cache
      * @param type              The Class of region cache type
      */
-    public MonoCacheService(CacheManager cacheManager, String cacheName, Class<T> type) {
-        super(cacheManager, cacheName, type);
+    public MonoCacheService(Cache cache, Class<T> type) {
+        super(cache, type);
     }
 
     /**
@@ -45,11 +44,12 @@ public class MonoCacheService<T> extends SpringCacheService<Mono<T>, T> {
      * Mono Cache reader function
      */
     private Function<String, Mono<Signal<? extends T>>> reader = k -> Mono
-            .justOrEmpty(cacheManager.getCache(cacheName).get(k, type)).map(Signal::next);
+            .justOrEmpty(cache.get(k, type)).map(Signal::next);
 
     /**
      * Mono Cache writer function
      */
     private BiFunction<String, Signal<? extends T>, Mono<Void>> writer = (k, signal) -> Mono
-            .fromRunnable(() -> Optional.ofNullable(signal.get()).ifPresent(o -> cacheManager.getCache(cacheName).put(k, o)));
+            .fromRunnable(() -> Optional.ofNullable(signal.get())
+                    .ifPresent(o -> cache.put(k, o)));
 }

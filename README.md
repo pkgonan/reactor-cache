@@ -1,2 +1,2 @@
 # Reactor Cache
-* Reactor Cache for Spring CacheManager
+* Reactor Cache for Spring

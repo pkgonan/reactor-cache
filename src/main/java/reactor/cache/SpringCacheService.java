@@ -1,6 +1,6 @@
 package reactor.cache;
 
-import org.springframework.cache.CacheManager;
+import org.springframework.cache.Cache;
 import org.springframework.util.Assert;
 
 /**
@@ -8,34 +8,31 @@ import org.springframework.util.Assert;
  *
  * @param <R> Flux or Mono
  * @param <T> the type of return value
- *
  * @author Minkiu Kim
  */
 abstract class SpringCacheService<R, T> implements CacheService<R, T> {
 
-    /** Spring Cache Manager */
-    protected CacheManager cacheManager;
+    /**
+     * Spring Cache
+     */
+    protected Cache cache;
 
-    /** Cache name */
-    protected String cacheName;
-
-    /** Class of region cache type */
+    /**
+     * Class of region cache type
+     */
     protected Class<T> type;
 
     /**
      * Constructor
      *
-     * @param cacheManager      The spring cache manager
-     * @param cacheName         The cache name
-     * @param type              The Class of region cache type
+     * @param cache     The spring cache
+     * @param type      The Class of region cache type
      */
-    protected SpringCacheService(CacheManager cacheManager, String cacheName, Class<T> type) {
-        Assert.notNull(cacheManager, "CacheManager must not be null");
-        Assert.notNull(cacheName, "CacheName must not be null");
+    protected SpringCacheService(Cache cache, Class<T> type) {
+        Assert.notNull(cache, "Cache must not be null");
         Assert.notNull(type, "Class of region cache type must not be null");
 
-        this.cacheManager = cacheManager;
-        this.cacheName = cacheName;
+        this.cache = cache;
         this.type = type;
     }
 }
