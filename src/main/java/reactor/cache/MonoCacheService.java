@@ -44,7 +44,7 @@ public class MonoCacheService<T> extends SpringCacheService<Mono<T>, T> {
      * Mono Cache reader function
      */
     private Function<String, Mono<Signal<? extends T>>> reader = k -> Mono
-            .justOrEmpty(cache.get(k, type)).map(Signal::next);
+            .justOrEmpty(cache.get(k, type)).flatMap(t -> Mono.justOrEmpty(Signal.next(t)));
 
     /**
      * Mono Cache writer function
