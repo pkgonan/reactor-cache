@@ -4,12 +4,12 @@ import org.springframework.cache.Cache;
 import org.springframework.util.Assert;
 
 /**
- * Base Reactor cache service implementation for spring cache
+ * Base Reactor cache implementation for spring cache
  *
- * @param <T> the type of return value
+ * @param <T> The type of return value
  * @author Minkiu Kim
  */
-abstract class AbstractSpringCacheService<T> {
+abstract class AbstractSpringCache<T> {
 
     /**
      * Spring Cache
@@ -27,7 +27,7 @@ abstract class AbstractSpringCacheService<T> {
      * @param cache The spring cache
      * @param type  The Class of region cache type
      */
-    protected AbstractSpringCacheService(Cache cache, Class<T> type) {
+    protected AbstractSpringCache(Cache cache, Class<T> type) {
         Assert.notNull(cache, "Cache must not be null");
         Assert.notNull(type, "Class of region cache type must not be null");
 

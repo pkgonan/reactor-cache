@@ -1,14 +1,14 @@
-package reactor.cache.service;
+package reactor.cache.core;
 
 import reactor.core.publisher.Flux;
 
 /**
  * Flux cache service
  *
- * @param <T> the type of return value
+ * @param <T> The Flux type of return value
  * @author Minkiu Kim
  */
-public interface FluxCacheService<T> extends CacheService<Flux<T>, T> {
+public interface FluxCache<T> extends ReactorCache<Flux<T>, T> {
 
     /**
      * Find Flux cache entity for the given key.

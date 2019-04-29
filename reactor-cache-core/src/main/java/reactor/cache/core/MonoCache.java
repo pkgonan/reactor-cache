@@ -1,14 +1,14 @@
-package reactor.cache.service;
+package reactor.cache.core;
 
 import reactor.core.publisher.Mono;
 
 /**
  * Mono cache service
  *
- * @param <T> the type of return value
+ * @param <T> The Mono type of return value
  * @author Minkiu Kim
  */
-public interface MonoCacheService<T> extends CacheService<Mono<T>, T> {
+public interface MonoCache<T> extends ReactorCache<Mono<T>, T> {
 
     /**
      * Find Mono cache entity for the given key.

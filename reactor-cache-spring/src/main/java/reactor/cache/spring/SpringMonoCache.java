@@ -2,7 +2,7 @@ package reactor.cache.spring;
 
 import org.springframework.cache.Cache;
 import reactor.cache.CacheMono;
-import reactor.cache.service.MonoCacheService;
+import reactor.cache.core.MonoCache;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Signal;
 
@@ -11,12 +11,12 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Mono cache service implementation for spring cache
+ * Mono cache implementation for spring cache
  *
- * @param <T> the type of return value
+ * @param <T> The Mono type of return value
  * @author Minkiu Kim
  */
-public class SpringMonoCacheService<T> extends AbstractSpringCacheService<T> implements MonoCacheService<T> {
+public class SpringMonoCache<T> extends AbstractSpringCache<T> implements MonoCache<T> {
 
     /**
      * Constructor
@@ -24,7 +24,7 @@ public class SpringMonoCacheService<T> extends AbstractSpringCacheService<T> imp
      * @param cache The spring cache
      * @param type  The Class of region cache type
      */
-    public SpringMonoCacheService(Cache cache, Class<T> type) {
+    public SpringMonoCache(Cache cache, Class<T> type) {
         super(cache, type);
     }
 

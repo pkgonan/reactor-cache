@@ -7,9 +7,9 @@ import org.springframework.cache.concurrent.ConcurrentMapCache;
 import reactor.cache.exception.NotSupportException;
 import reactor.core.publisher.Flux;
 
-public class SpringFluxCacheServiceTest {
+public class SpringFluxCacheTest {
 
-    private SpringFluxCacheService<String> springFluxCacheService;
+    private SpringFluxCache<String> springFluxCache;
 
     @Before
     public void init() {
@@ -17,11 +17,11 @@ public class SpringFluxCacheServiceTest {
         final Cache cache = new ConcurrentMapCache(cacheName);
         final Class<String> cacheRegionType = String.class;
 
-        this.springFluxCacheService = new SpringFluxCacheService<>(cache, cacheRegionType);
+        this.springFluxCache = new SpringFluxCache<>(cache, cacheRegionType);
     }
 
     @Test(expected = NotSupportException.class)
     public void find() {
-        springFluxCacheService.find(Flux.empty(), "");
+        springFluxCache.find(Flux.empty(), "");
     }
 }

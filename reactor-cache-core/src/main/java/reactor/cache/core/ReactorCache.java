@@ -1,13 +1,13 @@
-package reactor.cache.service;
+package reactor.cache.core;
 
 /**
  * Reactor cache service
  *
  * @param <R> Flux or Mono
- * @param <T> the type of return value
+ * @param <T> The Flux or Mono type of return value
  * @author Minkiu Kim
  */
-public interface CacheService<R, T> {
+public interface ReactorCache<R, T> {
 
     /**
      * Find reactor cache entity for the given key.

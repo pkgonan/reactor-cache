@@ -8,9 +8,9 @@ import reactor.core.publisher.Mono;
 
 import static org.junit.Assert.assertEquals;
 
-public class SpringMonoCacheServiceTest {
+public class SpringMonoCacheTest {
 
-    private SpringMonoCacheService<String> springMonoCacheService;
+    private SpringMonoCache<String> springMonoCache;
 
     @Before
     public void init() {
@@ -18,7 +18,7 @@ public class SpringMonoCacheServiceTest {
         final Cache cache = new ConcurrentMapCache(cacheName);
         final Class<String> cacheRegionType = String.class;
 
-        this.springMonoCacheService = new SpringMonoCacheService<>(cache, cacheRegionType);
+        this.springMonoCache = new SpringMonoCache<>(cache, cacheRegionType);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class SpringMonoCacheServiceTest {
         final Mono<String> retriever = Mono.just("Value");
         final String key = "Key";
 
-        springMonoCacheService.find(retriever, key).subscribe(result::append);
+        springMonoCache.find(retriever, key).subscribe(result::append);
 
         assertEquals(expected.toString(), result.toString());
     }
