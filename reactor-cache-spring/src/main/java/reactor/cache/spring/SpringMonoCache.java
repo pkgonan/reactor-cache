@@ -5,6 +5,7 @@ import reactor.cache.CacheMono;
 import reactor.cache.core.MonoCache;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Signal;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -37,19 +38,24 @@ public class SpringMonoCache<T> extends AbstractSpringCache<T> implements MonoCa
      */
     @Override
     public Mono<T> find(Mono<T> retriever, String key) {
-        return CacheMono.lookup(reader, key).onCacheMissResume(retriever).andWriteWith(writer);
+        return CacheMono.lookup(reader, key)
+                .onCacheMissResume(retriever)
+                .andWriteWith(writer)
+                .subscribeOn(Schedulers.elastic());
     }
 
     /**
      * Mono Cache reader function
      */
     private Function<String, Mono<Signal<? extends T>>> reader = k -> Mono
-            .justOrEmpty(cache.get(k, type)).flatMap(t -> Mono.justOrEmpty(Signal.next(t)));
+            .fromCallable(() -> cache.get(k, type))
+            .flatMap(t -> Mono.justOrEmpty(Signal.next(t)));
 
     /**
      * Mono Cache writer function
      */
     private BiFunction<String, Signal<? extends T>, Mono<Void>> writer = (k, signal) -> Mono
             .fromRunnable(() -> Optional.ofNullable(signal.get())
-                    .ifPresent(o -> cache.put(k, o)));
+                    .ifPresent(o -> cache.put(k, o)))
+            .then();
 }
