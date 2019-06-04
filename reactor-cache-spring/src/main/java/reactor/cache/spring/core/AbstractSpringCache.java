@@ -1,4 +1,4 @@
-package reactor.cache.spring;
+package reactor.cache.spring.core;
 
 import org.springframework.cache.Cache;
 import org.springframework.util.Assert;

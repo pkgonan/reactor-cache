@@ -1,4 +1,4 @@
-package reactor.cache.spring;
+package reactor.cache.spring.core;
 
 import org.springframework.cache.Cache;
 import reactor.cache.core.FluxCache;
@@ -21,6 +21,7 @@ public class SpringFluxCache<T> extends AbstractSpringCache<T> implements FluxCa
      */
     public SpringFluxCache(Cache cache, Class<T> type) {
         super(cache, type);
+        throw new NotSupportException("FluxCache is not support");
     }
 
     /**

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
+import reactor.cache.spring.core.SpringMonoCache;
 import reactor.core.publisher.Mono;
 
 import static org.junit.Assert.assertEquals;

@@ -1,4 +1,4 @@
-package reactor.cache.spring;
+package reactor.cache.spring.core;
 
 import org.springframework.cache.Cache;
 import reactor.cache.CacheMono;
@@ -40,8 +40,7 @@ public class SpringMonoCache<T> extends AbstractSpringCache<T> implements MonoCa
     public Mono<T> find(Mono<T> retriever, String key) {
         return CacheMono.lookup(reader, key)
                 .onCacheMissResume(retriever)
-                .andWriteWith(writer)
-                .subscribeOn(Schedulers.elastic());
+                .andWriteWith(writer);
     }
 
     /**
@@ -49,6 +48,7 @@ public class SpringMonoCache<T> extends AbstractSpringCache<T> implements MonoCa
      */
     private Function<String, Mono<Signal<? extends T>>> reader = k -> Mono
             .fromCallable(() -> cache.get(k, type))
+            .subscribeOn(Schedulers.elastic())
             .flatMap(t -> Mono.justOrEmpty(Signal.next(t)));
 
     /**
@@ -57,5 +57,6 @@ public class SpringMonoCache<T> extends AbstractSpringCache<T> implements MonoCa
     private BiFunction<String, Signal<? extends T>, Mono<Void>> writer = (k, signal) -> Mono
             .fromRunnable(() -> Optional.ofNullable(signal.get())
                     .ifPresent(o -> cache.put(k, o)))
+            .subscribeOn(Schedulers.elastic())
             .then();
 }

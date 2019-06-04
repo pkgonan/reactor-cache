@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import reactor.cache.exception.NotSupportException;
+import reactor.cache.spring.core.SpringFluxCache;
 import reactor.core.publisher.Flux;
 
 public class SpringFluxCacheTest {
