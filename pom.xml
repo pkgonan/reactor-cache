@@ -6,7 +6,7 @@
 
     <groupId>reactor-cache</groupId>
     <artifactId>reactor-cache</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>reactor-cache</name>
     <description>reactor-cache project</description>
