@@ -11,35 +11,44 @@ import reactor.test.StepVerifier;
 import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class SpringMonoCacheTest {
 
-    private SpringMonoCache<String> springMonoCache;
+    private final static String cacheName = "Mono-cache-test";
+    private final static Class<String> cacheRegionType = String.class;
+
+    private Cache cache;
 
     @Before
     public void init() {
-        final String cacheName = "Mono-cache-test";
-        final Cache cache = new ConcurrentMapCache(cacheName);
-        final Class<String> cacheRegionType = String.class;
+        this.cache = new ConcurrentMapCache(cacheName);
+    }
 
-        this.springMonoCache = new SpringMonoCache<>(cache, cacheRegionType);
+    @Test(expected = IllegalArgumentException.class)
+    public void cacheNotNull() {
+        new SpringMonoCache<>(null, cacheRegionType);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void cacheTypeNotNull() {
+        new SpringMonoCache<>(cache, null);
     }
 
     @Test
-    public void find() {
-        final StringBuilder expected = new StringBuilder("Value");
-        final StringBuilder result = new StringBuilder();
-
+    public void getAndPut() {
+        final SpringMonoCache<String> springMonoCache = new SpringMonoCache<>(cache, cacheRegionType);
         final Mono<String> retriever = Mono.just("Value");
         final String key = "Key";
+        final Mono<String> stringMono = springMonoCache.find(retriever, key);
 
-        final Mono<String> stringMono = springMonoCache.find(retriever, key).doOnSuccess(result::append);
+        assertEquals(null, cache.get(key, cacheRegionType));
 
         StepVerifier.create(stringMono)
                 .expectNext("Value")
                 .expectComplete()
                 .verify();
 
-        assertEquals(expected.toString(), result.toString());
+        assertEquals("Value", cache.get(key, cacheRegionType));
     }
 }

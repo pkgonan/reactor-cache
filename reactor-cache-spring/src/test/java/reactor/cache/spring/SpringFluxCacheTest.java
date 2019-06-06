@@ -15,6 +15,6 @@ public class SpringFluxCacheTest {
         final Cache cache = new ConcurrentMapCache(cacheName);
         final Class<String> cacheRegionType = String.class;
 
-        final SpringFluxCache<String> springFluxCache = new SpringFluxCache<>(cache, cacheRegionType);
+        new SpringFluxCache<>(cache, cacheRegionType);
     }
 }
